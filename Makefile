@@ -20,3 +20,11 @@ stop:
 # Cleans up all resources including volumes.
 clean:
 	docker compose down -v
+
+# Generates datasets into data/.
+gen:
+	python3 gen/generate.py
+
+# Loads CSV from data/ into ClickHouse.
+load:
+	./scripts/load.sh

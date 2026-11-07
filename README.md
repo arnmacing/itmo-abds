@@ -1,6 +1,6 @@
 # Лабораторный проект
 
-[![labs](https://github.com/{your_username}/{your_repo}/actions/workflows/energosbyt.energosbyt.lab.yml/badge.svg)](https://github.com/{your_username}/{your_repo}/actions/workflows/energosbyt.energosbyt.lab.yml)
+[![labs](https://github.com/arnmacing/itmo-abds/actions/workflows/energosbyt.lab.yml/badge.svg)](https://github.com/arnmacing/itmo-abds/actions/workflows/energosbyt.lab.yml)
 
 Backend-сервис вымышленной ЖКХ-компании для практики по курсу «Архитектура систем обработки больших данных».
 
@@ -10,9 +10,6 @@ Backend-сервис вымышленной ЖКХ-компании для пр�
 2. **[Лабораторные работы](https://github.com/sitnikovik/abds/tree/master/lab)** — технические задания для каждой лабораторной работы
 3. **[CONTRIBUTING.md](CONTRIBUTING.md)** — требования к структуре проекта, процесс разработки и проверки
 4. **[Документация курса](https://github.com/sitnikovik/abds)** — методические материалы и дополнительные ресурсы
-
-> [!IMPORTANT]
-> Поменяйте `{your_username}` и `{your_repo}` в badge на ваши имя пользователя и название репозитория.
 
 ## Настройка репозитория
 
