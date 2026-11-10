@@ -5,5 +5,3 @@ DROP TABLE IF EXISTS energosbyt.dim_users;
 DROP TABLE IF EXISTS energosbyt.dim_tariffs;
 DROP TABLE IF EXISTS energosbyt.dim_gauges;
 DROP TABLE IF EXISTS energosbyt.dim_realty;
-
-DROP DATABASE IF EXISTS energosbyt;

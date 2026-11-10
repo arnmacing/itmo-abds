@@ -43,6 +43,7 @@ rng = random.Random(SEED)
 
 
 def write_csv(name, header, rows):
+    """Пишет CSV с заголовком в папку OUT."""
     with (OUT / name).open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(header)
@@ -50,10 +51,12 @@ def write_csv(name, header, rows):
 
 
 def phone():
+    """Случайный номер телефона."""
     return "+79" + "".join(rng.choices("0123456789", k=9))
 
 
 def tariff_for(month):
+    """Версия тарифа, действующая в первый день месяца."""
     ts = f"{month} 00:00:00"
     for t in TARIFFS:
         if t[4] <= ts < t[5]:
@@ -61,6 +64,7 @@ def tariff_for(month):
 
 
 def main():
+    """Генерирует все датасеты."""
     OUT.mkdir(exist_ok=True)
 
     # dim_realty
@@ -76,7 +80,8 @@ def main():
             )
         else:
             square = rng.randint(40, 300)
-            realty.append((rid, house, square, "nrcp", "", 0, 1, 0, CREATED_AT))
+            porch = rng.randint(1, 4)
+            realty.append((rid, house, square, "nrcp", "", 0, 1, porch, CREATED_AT))
     write_csv(
         "dim_realty.csv",
         [

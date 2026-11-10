@@ -1,3 +1,5 @@
+# Значения по умолчанию у портов нужны только для docker compose logs/down без --env-file,
+# так их вызывает пайплайн проверки. Источник конфигурации по-прежнему .env.local.
 services:
   clickhouse:
     image: clickhouse/clickhouse-server:26.7
@@ -7,9 +9,9 @@ services:
       - "${CLICKHOUSE_HTTP_PORT:-8123}:8123"
       - "${CLICKHOUSE_PORT:-9000}:9000"
     environment:
-      CLICKHOUSE_USER: ${CLICKHOUSE_USER:-default}
-      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-}
-      CLICKHOUSE_DB: ${CLICKHOUSE_DATABASE:-energosbyt}
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
+      CLICKHOUSE_DB: ${CLICKHOUSE_DATABASE}
     volumes:
       - ./volume/clickhouse:/var/lib/clickhouse
     ulimits:
@@ -21,3 +23,16 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+
+  app:
+    build: .
+    container_name: app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:${APP_PORT:-8080}"
+    env_file: .env.local
+    environment:
+      CLICKHOUSE_HOST: clickhouse
+    depends_on:
+      clickhouse:
+        condition: service_healthy

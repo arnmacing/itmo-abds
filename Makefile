@@ -1,25 +1,29 @@
-.PHONY: run rund services stop clean
+include .env.local
+
+COMPOSE = docker compose --env-file .env.local
+
+.PHONY: run rund services stop clean gen load setup teardown
 .DEFAULT_GOAL = run
 
 # Runs all services in detached mode.
 run:
-	docker compose --env-file .env.local up -d --build
+	$(COMPOSE) up -d --build
 
 # Runs all services without detached mode (for debugging).
 rund:
-	docker compose --env-file .env.local up --build
+	$(COMPOSE) up --build
 
 # Shows all service statuses.
 services:
-	docker compose ps
+	$(COMPOSE) ps
 
 # Stops all running services.
 stop:
-	docker compose down
+	$(COMPOSE) down
 
 # Cleans up all resources including volumes.
 clean:
-	docker compose down -v
+	$(COMPOSE) down -v
 
 # Generates datasets into data/.
 gen:
@@ -28,3 +32,12 @@ gen:
 # Loads CSV from data/ into ClickHouse.
 load:
 	./scripts/load.sh
+
+# Creates the schema, generates and loads datasets.
+setup:
+	$(COMPOSE) exec -T clickhouse clickhouse-client --password '$(CLICKHOUSE_PASSWORD)' --queries-file /dev/stdin < sql/schema.sql
+	$(MAKE) gen load
+
+# Drops all tables and data.
+teardown:
+	$(COMPOSE) exec -T clickhouse clickhouse-client --password '$(CLICKHOUSE_PASSWORD)' --queries-file /dev/stdin < sql/teardown.sql
