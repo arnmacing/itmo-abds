@@ -49,7 +49,7 @@ make stop
 
 ## API
 
-Сервис на FastAPI, код в `app/main.py`. После `make run` доступна документация Swagger: http://localhost:8080/docs.
+Сервис на FastAPI, код в `app/` разбит по слоям: клиент ClickHouse, модели, репозиторий, сервисы и роуты. После `make run` доступна документация Swagger: http://localhost:8080/docs.
 Схема OpenAPI сохранена в [`api/openapi.json`](api/openapi.json).
 
 | Метод | Путь | Описание |
@@ -262,7 +262,13 @@ curl 'localhost:8080/realty/3/readings?date_from=2026-10-05&date_to=2026-10-05'
 
 ```
 .
-├── app/main.py         # HTTP-сервис
+├── app/
+│   ├── main.py         # сборка приложения и обработка ошибок
+│   ├── routes.py       # эндпоинты и проверка запросов
+│   ├── services.py     # логика SCD и проверки существования
+│   ├── repository.py   # SQL-запросы
+│   ├── models.py       # тела запросов
+│   └── db.py           # клиент ClickHouse
 ├── gen/generate.py     # генератор датасетов
 ├── scripts/load.sh     # загрузка CSV в ClickHouse
 ├── sql/schema.sql      # создание таблиц
